@@ -1,0 +1,41 @@
+#!/bin/bash
+
+
+if [[ $# = 0 ]]; then
+    host="localhost"
+    user="saybot"
+    psw="saybot"
+else
+    if [[ $1 == *@* ]]; then
+        args=$1
+        args=(${args//@/ })
+        user=${args[0]}
+        host=${args[1]}
+        echo $user
+        echo $host
+    else
+        user="saybot"
+        host=$1
+    fi
+
+    if [[ $# = 2 ]]; then
+        psw=$2
+    else
+        if [[ $user = "saybot" ]]; then
+            psw="saybot"
+        elif [[ $user = "root" ]]; then
+            psw="shuobaotang"
+        fi
+    fi
+fi
+
+if [[ $host =~ ^[0-9]+$ ]]; then
+    host="192.168.0."$host
+else
+    host=$host
+fi
+
+echo "mysql -h$host -u$user -p$psw saybot_vw"
+mysql -h$host -u$user -p$psw saybot_vw
+
+

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [[ $1 == *@* ]]; then
+    args=$1
+    args=(${args//@/ })
+    user=${args[0]}
+    host=${args[1]}
+else
+    user="saybot"
+    host=$1
+fi
+
+if [[ $host =~ ^[0-9]+$ ]]; then
+    host="192.168.0."$host
+else
+    host=$host
+fi
+
+userhost=$user"@"$host
+echo "connecting to "$userhost" ..."
+ssh "$userhost" "$2"
