@@ -1,0 +1,33 @@
+#!/bin/bash
+
+xbel_path="~/.local/share/recently-used.xbel"
+screenshots_dir=~/share/screenshots/
+http_prefix="http://192.168.0.127:8000/screenshots/"
+
+browser_cmd=google-chrome
+
+
+
+if [ $1 == 'clean' ]
+then
+    result=`xmessage "Do you really want to clear all you screenshots?" -center -buttons "OK:101,Cancel:102" -default "Cancel" -print`
+    if [ $result == "OK" ]
+    then
+        rm -f "$screenshots_dir"*.png
+    fi
+    exit
+fi
+
+
+screenshot_file_last=`retrieve_snapshot_file.rb "$xbel_path"`
+gnome-screenshot -a
+screenshot_file=`retrieve_snapshot_file.rb "$xbel_path"`
+if [ "$screenshot_file_last" != "$screenshot_file" ]
+then
+    mv "$screenshot_file" $screenshots_dir
+    screenshot_file_name=`basename "$screenshot_file"`
+    href=`encode_uri.rb "$http_prefix$screenshot_file_name"`
+    echo "$href" | xclip -selection c
+    $browser_cmd "$href"
+fi
+
