@@ -8,10 +8,10 @@ browser_cmd=google-chrome
 
 
 
-if [ $1 == 'clean' ]
+if [[ $1 = 'clean' ]]
 then
     result=`xmessage "Do you really want to clear all you screenshots?" -center -buttons "OK:101,Cancel:102" -default "Cancel" -print`
-    if [ $result == "OK" ]
+    if [[ $result = "OK" ]]
     then
         rm -f "$screenshots_dir"*.png
     fi
