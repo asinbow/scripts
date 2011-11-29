@@ -1,10 +1,13 @@
 #!/bin/bash
 
+default_user=asinbow.wang
+default_pwd=asinbow.wang
+default_database=asinbow
 
 if [[ $# = 0 ]]; then
     host="localhost"
-    user="saybot"
-    psw="saybot"
+    user=$default_user
+    psw=$default_pwd
 else
     if [[ $1 == *@* ]]; then
         args=$1
@@ -14,15 +17,15 @@ else
         echo $user
         echo $host
     else
-        user="saybot"
+        user=$default_user
         host=$1
     fi
 
     if [[ $# = 2 ]]; then
         psw=$2
     else
-        if [[ $user = "saybot" ]]; then
-            psw="saybot"
+        if [[ $user = $default_user ]]; then
+            psw=$default_pwd
         elif [[ $user = "root" ]]; then
             psw="shuobaotang"
         fi
@@ -35,7 +38,7 @@ else
     host=$host
 fi
 
-echo "mysql -h$host -u$user -p$psw saybot_vw"
-mysql -h$host -u$user -p$psw saybot_vw
-
+cmd="mysql -h$host -u$user -p$psw $default_database"
+echo $cmd
+mysql -h$host -u$user -p$psw $default_database
 

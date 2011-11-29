@@ -1,12 +1,14 @@
 #!/bin/bash
 
+default_user=asinbow.wang
+
 if [[ $1 == *@* ]]; then
     args=$1
     args=(${args//@/ })
     user=${args[0]}
     host=${args[1]}
 else
-    user="saybot"
+    user=$default_user
     host=$1
 fi
 

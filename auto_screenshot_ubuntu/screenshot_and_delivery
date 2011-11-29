@@ -24,7 +24,11 @@ gnome-screenshot -a
 screenshot_file=`retrieve_snapshot_file.rb "$xbel_path"`
 if [ "$screenshot_file_last" != "$screenshot_file" ]
 then
-    mv "$screenshot_file" $screenshots_dir
+    tmp_dirname=`dirname "$screenshot_file"`
+    if [ ! "$tmp_dirname" -ef "$screenshots_dir" ]
+    then
+        mv "$screenshot_file" $screenshots_dir
+    fi
     screenshot_file_name=`basename "$screenshot_file"`
     href=`encode_uri.rb "$http_prefix$screenshot_file_name"`
     echo "$href" | xclip -selection c
